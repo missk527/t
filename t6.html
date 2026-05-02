@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Reading Test - 11+</title>
+<style>
+body { font-family: Arial, sans-serif; background:#f4f6f8; margin:0; padding:20px; }
+.container { max-width:980px; margin:auto; background:white; padding:24px; border-radius:14px; box-shadow:0 3px 10px rgba(0,0,0,0.08); }
+.passage { background:#fafafa; padding:18px; border-left:6px solid #111827; white-space:pre-line; line-height:1.8; margin-bottom:20px; }
+button { background:#111827; color:white; padding:10px 14px; margin:5px; border:none; cursor:pointer; border-radius:8px; }
+button:hover { opacity:0.9; }
+.correct { color:green; }
+.wrong { color:#b91c1c; }
+label { display:block; margin:8px 0; }
+.meta { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
+.small { color:#475569; font-size:14px; }
+.note { color:#334155; font-size:13px; margin-top:4px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1> Reading Test (11+)</h1>
+  <div class="meta">
+    <div id="timer"></div>
+    <div class="small">3 passages • 10 questions each • 30 questions total</div>
+  </div>
+  <div class="note">This version is designed to be more abstract, inference-heavy, and academically demanding.</div>
+  <div id="passage" class="passage"></div>
+  <div id="q"></div>
+  <button onclick="prev()">Previous</button>
+  <button onclick="next()">Next</button>
+  <button onclick="submitTest()">Submit</button>
+  <div id="score"></div>
+  <div id="review"></div>
+</div>
+
+<script>
+const data = [
+
+{
+title: "Passage 1",
+text: `The language of innovation is frequently celebratory. Governments, corporations, and educational institutions often invoke the term as though its value were self-evident and universally beneficial. Yet historians of technology caution against treating innovation as an unquestioned good. What is described as innovative in one context may simply represent the reorganisation of costs, risks, or labour in another.
+
+This is not to deny that technological change can improve lives. Rather, it is to recognise that the benefits of novelty are rarely distributed evenly. A platform that increases convenience for consumers may simultaneously reduce the bargaining power of workers. A medical breakthrough may extend life expectancy while deepening inequalities in access. Even the rhetoric surrounding innovation can obscure the fact that societies do not merely adopt new technologies; they actively decide which inconveniences they are willing to tolerate and whose interests are to be prioritised.
+
+For this reason, some scholars argue that the central question is not whether a given technology is innovative, but who gains, who loses, and which alternatives have been excluded from consideration. Innovation, in this view, is less a neutral description than a political judgement disguised as progress.`,
+
+questions: [
+{q:"What is the main argument of the passage?",options:["Innovation is always beneficial","Innovation should be measured only by speed","Innovation must be examined in terms of distribution and power","Technology should be rejected"],answer:2},
+{q:"How does the author view the language surrounding innovation?",options:["As neutral and precise","As often celebratory and insufficiently critical","As outdated and irrelevant","As mainly scientific"],answer:1},
+{q:"What does the passage imply about convenience-enhancing platforms?",options:["They necessarily benefit workers equally","They may create unequal effects for different groups","They are never genuinely innovative","They mainly affect governments"],answer:1},
+{q:"What is meant by 'reorganisation of costs, risks, or labour'?",options:["Innovation may shift burdens rather than remove them","Technology eliminates all trade-offs","Labour becomes more visible","Products become cheaper"],answer:0},
+{q:"Why does the author mention medical breakthroughs?",options:["To show all innovations fail","To illustrate that benefits can coexist with inequality","To suggest medicine is politically neutral","To criticise public health"],answer:1},
+{q:"According to the passage, what do societies actively decide?",options:["Only which devices to buy","Which trade-offs and priorities to accept","How to stop all new inventions","Whether history matters"],answer:1},
+{q:"The phrase 'political judgement disguised as progress' suggests that innovation is often:",options:["Objectively measurable","A value-laden label","Scientifically invalid","Economically meaningless"],answer:1},
+{q:"Which question does the author think is most important?",options:["Is it expensive?","Is it innovative?","Who benefits and what alternatives were excluded?","How quickly can it scale?"],answer:2},
+{q:"The author’s tone is best described as:",options:["Critical but analytical","Mocking and casual","Overly optimistic","Purely historical"],answer:0},
+{q:"Which title best fits the passage?",options:["Why Technology Always Wins","Rethinking the Politics of Innovation","The End of Scientific Progress","How Consumers Choose Devices"],answer:1}
+]
+},
+
+{
+title: "Passage 2",
+text: `Memory is often imagined as a personal archive: a storehouse of impressions that can be retrieved when required. Contemporary research in psychology and neuroscience, however, indicates that remembering is not merely an act of recovery but also one of reconstruction. Memories are assembled, updated, and sometimes distorted each time they are recalled.
+
+This does not mean that memory is useless or wholly unreliable. In many cases, reconstruction allows individuals to integrate new knowledge with earlier experiences, producing a coherent sense of self over time. The difficulty lies in the fact that coherence can be mistaken for accuracy. A memory may feel vivid, emotionally persuasive, and internally consistent while still containing substantial error.
+
+The implications extend beyond individual psychology. In legal settings, eyewitness testimony has often been treated as compelling precisely because of its confidence and detail. Yet confidence is not a simple indicator of truth. As a result, many researchers now argue that institutions should place greater emphasis on the conditions under which memories are formed and recalled, rather than assuming that sincerity guarantees reliability.`,
+
+questions: [
+{q:"What is the central idea of the passage?",options:["Memory functions like exact storage","Remembering is reconstructive and can be misleading","Eyewitnesses should be ignored completely","Neuroscience has solved memory"],answer:1},
+{q:"How does the passage characterise memory?",options:["As fixed and permanent","As reconstructive rather than purely reproductive","As emotionally irrelevant","As useful only in court"],answer:1},
+{q:"Why is coherence potentially misleading?",options:["Because coherent memories are always false","Because a plausible memory can still be inaccurate","Because coherence prevents learning","Because vivid memories are legally inadmissible"],answer:1},
+{q:"What role can reconstruction play positively?",options:["It can help integrate experience into a coherent identity","It eliminates all distortion","It prevents emotion from shaping recall","It makes testimony objective"],answer:0},
+{q:"Why does the author discuss legal settings?",options:["To argue courts should reject all witnesses","To show that confidence is often mistaken for accuracy","To prove memory research is complete","To criticise lawyers specifically"],answer:1},
+{q:"According to the passage, confidence in testimony is:",options:["A simple sign of truth","Unrelated to all evidence","Not a straightforward measure of accuracy","More important than conditions of recall"],answer:2},
+{q:"What do researchers recommend institutions examine more carefully?",options:["The sincerity of witnesses only","The formation and recall conditions of memory","The speaking style of witnesses","The age of written records"],answer:1},
+{q:"The author’s tone is best described as:",options:["Qualified and explanatory","Dismissive and sarcastic","Highly emotional","Narrative and nostalgic"],answer:0},
+{q:"Which statement is implied by the passage?",options:["False memories are impossible","Subjective conviction can exceed factual accuracy","Reconstruction makes memory useless","Only recent memories are distorted"],answer:1},
+{q:"Which title best fits the passage?",options:["Memory as Reconstruction","Why Courts Ignore Science","The End of Eyewitness Testimony","How to Improve Brain Storage"],answer:0}
+]
+},
+
+{
+title: "Passage 3",
+text: `Public debate often treats expertise as though it were a claim to infallibility. This misunderstanding generates a predictable cycle: specialists issue provisional guidance based on incomplete evidence; circumstances change or knowledge improves; the guidance is revised; critics then interpret revision as proof that expertise itself is fraudulent. The result is a corrosive confusion between fallibility and illegitimacy.
+
+In reality, expert judgement is valuable not because it is immune from error, but because it is disciplined by method, evidence, and standards of revision. A competent expert is not distinguished by never being wrong, but by being wrong in corrigible ways. The capacity to update conclusions in light of better information is a strength of expert culture, not a weakness.
+
+This does not mean public trust should be unconditional. Experts can be biased, institutions can become insular, and technical authority can be misused. But the appropriate response is neither blind faith nor reflexive cynicism. It is to evaluate how claims are produced, what standards govern them, and whether revision reflects opportunism or genuine responsiveness to evidence.`,
+
+questions: [
+{q:"What misunderstanding does the author identify at the start of the passage?",options:["Experts dislike criticism","Expertise is mistaken for infallibility","Public debate is too technical","Evidence is always incomplete"],answer:1},
+{q:"What usually causes critics to dismiss expertise?",options:["Experts refusing to revise anything","The revision of earlier guidance","Too much public trust","A lack of institutions"],answer:1},
+{q:"According to the passage, why is expert judgement valuable?",options:["Because experts never make errors","Because it is governed by method and open to revision","Because the public cannot reason independently","Because institutions are always fair"],answer:1},
+{q:"What does the phrase 'wrong in corrigible ways' most nearly mean?",options:["Wrong for political reasons","Capable of being corrected through evidence and method","Unable to admit mistakes","Incorrect but popular"],answer:1},
+{q:"What is the author's view of revision?",options:["It undermines legitimacy","It is evidence of fraud","It can be a sign of strength","It should be hidden from the public"],answer:2},
+{q:"What caution does the author include?",options:["Experts are always unbiased","Technical authority can be misused","Institutions should be trusted absolutely","Public judgement is irrelevant"],answer:1},
+{q:"Which response does the author reject?",options:["Careful evaluation","Blind faith and reflexive cynicism","Evidence-based criticism","Standards of accountability"],answer:1},
+{q:"What should the public evaluate instead of simply accepting or rejecting expertise?",options:["How claims are produced and revised","How famous the expert is","Whether the advice sounds confident","How often institutions appear in media"],answer:0},
+{q:"The tone of the passage is best described as:",options:["Balanced and argumentative","Humorous and informal","Outraged and accusatory","Detached and poetic"],answer:0},
+{q:"Which title best captures the passage?",options:["Why Experts Should Never Change Their Minds","Expertise, Error, and Public Trust","The Collapse of Professional Knowledge","How Institutions Manufacture Certainty"],answer:1}
+]
+}
+
+];
+
+let p = 0, q = 0, answers = [];
+let time = 2400;
+
+function timer(){
+  let m = Math.floor(time / 60);
+  let s = time % 60;
+  document.getElementById("timer").innerHTML = "<h3>Time: " + m + ":" + String(s).padStart(2,'0') + "</h3>";
+  if(time > 0){
+    time--;
+    setTimeout(timer, 1000);
+  } else {
+    submitTest();
+  }
+}
+
+function load(){
+  document.getElementById("passage").innerHTML = "<h2>" + data[p].title + "</h2>" + data[p].text;
+  show();
+}
+
+function show(){
+  let item = data[p].questions[q];
+  let html = "<p><strong>" + item.q + "</strong></p>";
+  item.options.forEach((opt, i) => {
+    const checked = answers[p*10+q] === i ? "checked" : "";
+    html += "<label><input type='radio' name='q' onclick='save(" + i + ")' " + checked + "> " + opt + "</label>";
+  });
+  html += "<p>Question " + (p*10 + q + 1) + " of 30</p>";
+  document.getElementById("q").innerHTML = html;
+}
+
+function save(c){
+  answers[p*10 + q] = c;
+}
+
+function next(){
+  if(q < 9) q++;
+  else if(p < 2){ p++; q = 0; load(); return; }
+  show();
+}
+
+function prev(){
+  if(q > 0) q--;
+  else if(p > 0){ p--; q = 9; load(); return; }
+  show();
+}
+
+function submitTest(){
+  let score = 0, review = "";
+  data.forEach((pass, pi) => {
+    pass.questions.forEach((qq, qi) => {
+      let idx = pi*10 + qi;
+      let user = answers[idx];
+      if(user === qq.answer) score++;
+      review += "<p>" + qq.q + "<br>";
+      review += "Your: <span class='" + (user===qq.answer ? "correct" : "wrong") + "'>" + (qq.options[user] || "None") + "</span><br>";
+      review += "Correct: <span class='correct'>" + qq.options[qq.answer] + "</span></p>";
+    });
+  });
+  document.getElementById("score").innerHTML = "<h2>Score: " + score + "/30</h2>";
+  document.getElementById("review").innerHTML = review;
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+timer();
+load();
+</script>
+</body>
+</html>
