@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Reading Test - 11+ (T11)</title>
+<style>
+body { font-family: Arial, sans-serif; background:#eef2f7; margin:0; padding:20px; }
+.container { max-width:1050px; margin:auto; background:white; padding:28px; border-radius:18px; box-shadow:0 5px 16px rgba(0,0,0,0.08); }
+.passage { background:#fafafa; padding:22px; border-left:6px solid #0f172a; white-space:pre-line; line-height:1.9; margin-bottom:20px; }
+button { background:#0f172a; color:white; padding:10px 16px; margin:5px; border:none; cursor:pointer; border-radius:8px; }
+button:hover { opacity:0.92; }
+.correct { color:green; }
+.wrong { color:#b91c1c; }
+label { display:block; margin:8px 0; }
+.meta { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
+.small { color:#475569; font-size:14px; }
+.note { color:#334155; font-size:13px; margin-top:4px; margin-bottom:14px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Reading Test (11+) — T11</h1>
+  <div class="meta">
+    <div id="timer"></div>
+    <div class="small">3 passages • 20 questions each • 60 questions total</div>
+  </div>
+  <div class="note">T11 raises the challenge with nuanced inference, abstract vocabulary, and carefully balanced arguments.</div>
+  <div id="passage" class="passage"></div>
+  <div id="q"></div>
+  <button onclick="prev()">Previous</button>
+  <button onclick="next()">Next</button>
+  <button onclick="submitTest()">Submit</button>
+  <div id="score"></div>
+  <div id="review"></div>
+</div>
+<script>
+const data = [
+{
+title: "Passage 1",
+text: `When people speak of silence, they often imagine an absence: the absence of speech, noise, movement, or explanation. Yet silence can be active rather than empty. In conversation, a pause may invite thought, signal discomfort, mark respect, or conceal disagreement. Its meaning depends less on the absence itself than on the situation in which that absence occurs.
+
+This makes silence difficult to interpret. A witness who remains silent may be protecting someone, resisting pressure, or simply lacking the words to describe an experience. A classroom that falls silent after a question may be confused, reflective, intimidated, or deeply engaged. Because silence does not announce its intention, listeners are tempted to fill it with assumptions drawn from their own expectations.
+
+Public life often mistrusts silence because modern culture rewards immediate explanation. Those who speak quickly are often treated as confident or transparent, while those who hesitate may be seen as evasive. But the demand for instant speech can flatten complexity. Some truths require time before they can be expressed responsibly; some forms of attention are visible precisely because they do not interrupt. Silence, then, is not merely the opposite of language. It is one of the conditions under which language acquires weight.`,
+questions: [
+{q:"What is the central claim of the passage?",options:["Silence is always empty","Silence can carry meaning depending on context","Speech is less important than silence","People should never explain themselves quickly"],answer:1},
+{q:"How does the passage initially define the common view of silence?",options:["As an absence","As a form of courage","As a public duty","As a type of argument"],answer:0},
+{q:"What can a pause in conversation indicate?",options:["Only confusion","Thought, discomfort, respect, or disagreement","A lack of intelligence","The end of communication"],answer:1},
+{q:"Why is silence difficult to interpret?",options:["It has no possible meanings","It does not state its intention clearly","It is always dishonest","It prevents people from thinking"],answer:1},
+{q:"What might a silent witness be doing?",options:["Protecting someone or resisting pressure","Proving guilt","Rejecting language entirely","Ignoring the event"],answer:0},
+{q:"Why does the author mention a classroom?",options:["To show silence can have several possible meanings","To criticise teachers","To prove students are afraid","To describe school rules"],answer:0},
+{q:"What are listeners tempted to do with silence?",options:["Respect it automatically","Fill it with their own assumptions","Forget it immediately","Translate it into writing"],answer:1},
+{q:"How does public life often treat silence?",options:["With trust","With suspicion","As a legal requirement","As entertainment"],answer:1},
+{q:"What does modern culture reward according to the passage?",options:["Immediate explanation","Long reflection","Quiet listening","Private disagreement"],answer:0},
+{q:"How may hesitation be misread?",options:["As evasiveness","As certainty","As generosity","As evidence"],answer:0},
+{q:"What danger is linked to demanding instant speech?",options:["It may flatten complexity","It improves judgement too quickly","It prevents all argument","It makes silence impossible"],answer:0},
+{q:"What does the passage suggest about some truths?",options:["They require time to express responsibly","They should never be spoken","They are always simple","They exist only in silence"],answer:0},
+{q:"What does 'language acquires weight' most nearly mean?",options:["Words become physically heavier","Speech gains seriousness and significance","Language becomes harder to learn","Words become shorter"],answer:1},
+{q:"Which statement would the author most likely support?",options:["Quick speech always proves honesty","Silence can be a form of attention","Silence has one fixed meaning","Hesitation should be punished"],answer:1},
+{q:"The tone of the passage is best described as:",options:["Reflective and analytical","Mocking and aggressive","Light-hearted and comic","Technical and detached"],answer:0},
+{q:"What broader issue does the passage explore?",options:["How meaning depends on context","Why schools require silence","How laws define speech","Why witnesses forget events"],answer:0},
+{q:"Which title best fits the passage?",options:["The Uses of Silence","Why Speech Fails","The End of Conversation","Silence as Proof"],answer:0},
+{q:"What does the passage imply about interpretation?",options:["It is shaped by expectations","It is always objective","It is unnecessary in conversation","It removes ambiguity"],answer:0},
+{q:"Why might someone lack words for an experience?",options:["Because experiences can be difficult to express","Because silence is illegal","Because speech is always easy","Because witnesses cannot remember"],answer:0},
+{q:"Which summary is most accurate?",options:["The passage argues that silence is meaningless","The passage argues that silence can be meaningful, ambiguous, and sometimes necessary for responsible speech","The passage claims public life values silence too much","The passage says speech should be replaced by silence"],answer:1}
+]
+},
+{
+title: "Passage 2",
+text: `Cities are often judged by their skylines, transport systems, and economic productivity. Yet the character of urban life is also shaped by smaller, less celebrated spaces: benches, courtyards, pavements, libraries, markets, and public squares. These places may seem ordinary, but they influence how strangers encounter one another and whether residents feel that the city belongs to them.
+
+Urban planners sometimes describe such spaces as social infrastructure. The term suggests that relationships require physical conditions, just as transport requires roads and energy requires cables. A well-placed bench can allow an elderly resident to rest; a library can offer shelter, learning, and quiet; a market can turn routine buying into social exchange. None of these examples is spectacular, but their cumulative effect can be profound.
+
+The value of social infrastructure becomes especially visible when it is removed. Streets designed only for traffic discourage lingering; private developments may appear clean and secure while excluding those who cannot pay; neglected public spaces can make isolation feel normal. A city that treats shared space as a luxury risks becoming efficient but inhospitable. The question, therefore, is not simply how a city moves people, but how it allows them to remain.`,
+questions: [
+{q:"What is the main argument of the passage?",options:["Cities should be judged only by skylines","Small shared spaces help shape urban belonging and social life","Markets are more important than libraries","Transport systems are unnecessary"],answer:1},
+{q:"Which spaces are mentioned as examples of ordinary urban places?",options:["Airports and factories","Benches, libraries, markets, and public squares","Mountains and rivers","Stadiums only"],answer:1},
+{q:"What does the phrase 'social infrastructure' suggest?",options:["Relationships need supportive physical conditions","Cities should avoid public space","Only technology creates community","Infrastructure is always invisible"],answer:0},
+{q:"Why is a bench used as an example?",options:["It can help an elderly resident rest","It improves the skyline","It replaces public transport","It prevents social exchange"],answer:0},
+{q:"What can a library provide according to the passage?",options:["Shelter, learning, and quiet","Only books for sale","Traffic control","Private housing"],answer:0},
+{q:"How can a market affect routine buying?",options:["It can turn it into social exchange","It makes buying impossible","It eliminates community","It discourages conversation"],answer:0},
+{q:"Why are the examples described as not spectacular?",options:["Their importance lies in cumulative everyday effects","They are useless","They are hidden underground","They are only temporary"],answer:0},
+{q:"When does the value of social infrastructure become especially visible?",options:["When it is removed","When skyscrapers are built","When traffic speeds up","When markets close at night"],answer:0},
+{q:"What do streets designed only for traffic discourage?",options:["Lingering","Movement","Noise","Efficiency"],answer:0},
+{q:"What criticism is made of some private developments?",options:["They may exclude people who cannot pay","They are always unsafe","They lack buildings","They encourage too much lingering"],answer:0},
+{q:"What risk does the author identify for cities?",options:["Becoming efficient but inhospitable","Becoming too quiet","Having too many libraries","Rejecting all movement"],answer:0},
+{q:"What is meant by 'how it allows them to remain'?",options:["Whether the city supports dwelling, belonging, and lingering","Whether people can travel quickly","Whether residents own cars","Whether people avoid public squares"],answer:0},
+{q:"The tone of the passage is best described as:",options:["Measured and persuasive","Furious and sarcastic","Purely comic","Indifferent"],answer:0},
+{q:"Which statement would the author most likely agree with?",options:["Shared public spaces are essential, not decorative","Cleanliness always proves openness","Traffic should be the only planning priority","Libraries have no social value"],answer:0},
+{q:"What broader theme does the passage address?",options:["The relationship between space and community","The history of skyscrapers","The economics of private markets","The science of traffic lights"],answer:0},
+{q:"Which title best fits the passage?",options:["The City as Shared Space","Why Skylines Matter Most","Traffic and Speed","Private Buildings and Profit"],answer:0},
+{q:"What does the passage imply about belonging?",options:["It can be influenced by the design of public space","It depends only on wealth","It is unrelated to cities","It requires isolation"],answer:0},
+{q:"Why might neglected public spaces matter?",options:["They can make isolation feel normal","They increase learning","They prevent exclusion","They replace markets"],answer:0},
+{q:"What contrast is made in the final sentence?",options:["Moving people versus allowing them to remain","Libraries versus markets","Skylines versus mountains","Traffic versus electricity"],answer:0},
+{q:"Which summary is most accurate?",options:["The passage argues public spaces are minor decorations","The passage argues everyday shared spaces form social infrastructure that helps cities become habitable and inclusive","The passage claims private developments are always harmful","The passage says transport has no role in cities"],answer:1}
+]
+},
+{
+title: "Passage 3",
+text: `In many debates, compromise is praised as mature and practical. It can prevent conflict from becoming destructive and allow people with different interests to continue working together. However, compromise is not always virtuous simply because it occupies a middle position. The worth of a compromise depends on what is being balanced, who bears the cost, and whether the agreement preserves or betrays the principles at stake.
+
+A superficial compromise may create the appearance of fairness while leaving the deeper injustice untouched. If two sides disagree about whether a harmful practice should continue, choosing a reduced version of that practice may look moderate without being morally adequate. Conversely, refusal to compromise is not always stubbornness; it may sometimes be a necessary defence of a boundary that should not be crossed.
+
+This does not mean that firmness is always admirable. People can mistake pride for principle, and absolute positions can make peaceful coexistence impossible. The challenge is to distinguish between negotiable preferences and non-negotiable commitments. A society that praises compromise without examining its substance may confuse balance with justice and civility with moral seriousness.`,
+questions: [
+{q:"What is the central argument of the passage?",options:["Compromise is always wrong","Compromise must be judged by its substance, not merely its moderation","Refusing compromise is always admirable","Middle positions are always just"],answer:1},
+{q:"Why is compromise often praised?",options:["It can prevent destructive conflict","It always solves injustice","It removes all disagreement","It proves one side is correct"],answer:0},
+{q:"What determines the worth of a compromise?",options:["What is balanced, who pays the cost, and what principles are involved","How quickly it is announced","Whether everyone smiles","Whether it is exactly in the middle"],answer:0},
+{q:"What problem can a superficial compromise create?",options:["It can appear fair while leaving injustice untouched","It always ends discussion","It makes people too principled","It removes all costs"],answer:0},
+{q:"Why does the author mention a harmful practice?",options:["To show moderation may still be morally inadequate","To defend harmful practices","To argue all disagreement is equal","To praise reduced harm as always sufficient"],answer:0},
+{q:"What does the passage say about refusal to compromise?",options:["It may sometimes defend a necessary boundary","It is always stubborn","It is never moral","It prevents all principles"],answer:0},
+{q:"What warning is given about firmness?",options:["It can be confused with pride","It is always better than compromise","It guarantees justice","It should replace discussion"],answer:0},
+{q:"What can absolute positions make impossible?",options:["Peaceful coexistence","Moral seriousness","Public debate","All principles"],answer:0},
+{q:"What is the main challenge identified by the author?",options:["Distinguishing negotiable preferences from non-negotiable commitments","Finding the exact middle of every argument","Avoiding all disagreement","Replacing justice with civility"],answer:0},
+{q:"What danger exists in praising compromise without examination?",options:["Balance may be confused with justice","Conflict may become impossible","Principles may become too clear","Everyone may refuse to speak"],answer:0},
+{q:"What does the author imply about civility?",options:["It is not the same as moral seriousness","It is always harmful","It replaces justice entirely","It makes compromise impossible"],answer:0},
+{q:"The tone of the passage is best described as:",options:["Balanced and critical","Mocking and playful","Furious and one-sided","Purely descriptive"],answer:0},
+{q:"Which statement would the author most likely support?",options:["A middle position is not automatically ethical","Compromise always betrays principles","Firmness is always pride","Justice means avoiding disagreement"],answer:0},
+{q:"What broader issue does the passage examine?",options:["The moral limits of compromise","The history of political speeches","The science of negotiation","The psychology of politeness"],answer:0},
+{q:"Which title best fits the passage?",options:["The Limits of Compromise","Why Agreement Always Wins","The Problem with Principles","Civility Without Conflict"],answer:0},
+{q:"What does 'principles at stake' mean?",options:["The important values involved in a dispute","The rules of a game","The people observing a debate","The cost of holding a meeting"],answer:0},
+{q:"What does the passage suggest about moderation?",options:["It may be insufficient if the underlying issue is unjust","It is always morally superior","It removes responsibility","It is impossible in public life"],answer:0},
+{q:"Why might people mistake pride for principle?",options:["They may defend a position for ego rather than moral necessity","They never compromise","They lack preferences","They confuse cost with fairness"],answer:0},
+{q:"What contrast appears in the final sentence?",options:["Balance versus justice, civility versus moral seriousness","Traffic versus silence","Markets versus libraries","Memory versus identity"],answer:0},
+{q:"Which summary is most accurate?",options:["The passage rejects all compromise","The passage argues that compromise can be useful but must be evaluated according to justice, cost, and principle","The passage says firmness is always correct","The passage claims disagreement should never continue"],answer:1}
+]
+}
+];
+
+let p = 0, q = 0, answers = [];
+let time = 4800;
+
+function timer(){
+  let m = Math.floor(time / 60);
+  let s = time % 60;
+  document.getElementById("timer").innerHTML = "<h3>Time: " + m + ":" + String(s).padStart(2,'0') + "</h3>";
+  if(time > 0){ time--; setTimeout(timer,1000); } else { submitTest(); }
+}
+
+function load(){
+  document.getElementById("passage").innerHTML = "<h2>" + data[p].title + "</h2>" + data[p].text;
+  show();
+}
+
+function show(){
+  const item = data[p].questions[q];
+  let html = "<p><strong>" + item.q + "</strong></p>";
+  item.options.forEach((opt,i)=>{
+    const checked = answers[p*20+q] === i ? "checked" : "";
+    html += "<label><input type='radio' name='q' onclick='save(" + i + ")' " + checked + "> " + opt + "</label>";
+  });
+  html += "<p>Question " + (p*20+q+1) + " of 60</p>";
+  document.getElementById("q").innerHTML = html;
+}
+
+function save(c){ answers[p*20+q] = c; }
+
+function next(){
+  if(q < 19) q++;
+  else if(p < 2){ p++; q = 0; load(); return; }
+  show();
+}
+
+function prev(){
+  if(q > 0) q--;
+  else if(p > 0){ p--; q = 19; load(); return; }
+  show();
+}
+
+function submitTest(){
+  let score = 0, review = "";
+  data.forEach((pass,pi)=>{
+    pass.questions.forEach((qq,qi)=>{
+      const idx = pi*20 + qi;
+      const user = answers[idx];
+      if(user === qq.answer) score++;
+      review += "<p><strong>Q" + (idx+1) + ".</strong> " + qq.q + "<br>";
+      review += "Your: <span class='" + (user===qq.answer ? "correct" : "wrong") + "'>" + (qq.options[user] || "None") + "</span><br>";
+      review += "Correct: <span class='correct'>" + qq.options[qq.answer] + "</span></p>";
+    });
+  });
+  document.getElementById("score").innerHTML = "<h2>Score: " + score + "/60</h2>";
+  document.getElementById("review").innerHTML = review;
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+timer();
+load();
+</script>
+</body>
+</html>
